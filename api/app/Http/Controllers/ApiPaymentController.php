@@ -35,14 +35,17 @@ class ApiPaymentController extends ApiController
     {
         try {
 
+            $data = $request->all();
             if($request->manualyCustomer == true || $request->manualyCustomer == "true"){
                 $customer =  $addCustomer->addCustomer($request);
-                $data['customer_id'] = $customer->customer_id;
+                $$customerId = $customer->customer_id;
             }elseif($request->customer_id){
-                $data['customer_id'] = $request->customer_id;
+                $customerId = $request->customer_id;
             }else{
                 return $this->jsonResponse(true, 'You have to select a customer', [], [], JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
             }
+
+            $data['customer_id'] = $customerId;
 
             $service = Payment::create($data);
 

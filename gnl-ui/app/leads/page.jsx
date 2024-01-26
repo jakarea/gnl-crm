@@ -17,10 +17,12 @@ import gmail from "@/public/assets/images/icons/gmail-one.svg";
 import instagram from "@/public/assets/images/icons/instagram.svg";
 import linkedin from "@/public/assets/images/icons/linkedln.svg";
 import AddLead from "../components/leads/add-lead";
+import { Toaster } from "react-hot-toast";
 
 function Leads() {
     return (
         <section className="main-page-wrapper leads-page-wrapper">
+            <Toaster  position="top-right"/>
             <div className="page-title leads-page-title">
                 <h1>Hosting Leads</h1>
 

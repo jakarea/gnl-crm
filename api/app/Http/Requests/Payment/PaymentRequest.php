@@ -29,6 +29,7 @@ class PaymentRequest extends BaseFormRequest
             'tax' => 'required|numeric|lt:amount',
             'pay_status'=>'required',
             'pay_date'=>'required',
+            'payment_service'=>'required',
             'avatar' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
             // 'project_id' => ['required', Rule::exists('projects', 'id')],
         ];

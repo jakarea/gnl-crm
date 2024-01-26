@@ -13,10 +13,12 @@ import moneyRecive from "@/public/assets/images/icons/money-recive.svg";
 import dotsHorizontal from "@/public/assets/images/icons/dots-horizontal.svg";
 import moneyReciveDown from "@/public/assets/images/icons/money-recive-down.svg";
 import AddClient from "../components/clients/add-client";
+import { Toaster } from "react-hot-toast";
 
 function Earning() {
     return (
         <section className="main-page-wrapper analytics-page-wrapper">
+            <Toaster  position="top-right"/>
 
             <div className="page-title page-title-one">
                 <h1>Earnings</h1>

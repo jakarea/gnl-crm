@@ -60,7 +60,7 @@ export default function RootLayout({ children }) {
 								<li className="side-item"><Link href="/customer" className="side-link"><Image src={customerIcon} alt="dashboard icon" />Customer</Link>
 								</li>
 								<li className="side-item">
-									<Link href="to-do-list" className=" side-link">
+									<Link href="/to-do-list" className=" side-link">
 
 										<Image src={calendarIcon} alt="dashboard icon" />
 										To Do List

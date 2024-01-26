@@ -36,27 +36,29 @@ class ApiTaskController extends ApiController
     {
         try {
 
-            return $request->all();
             $data = $request->except(['file_upload', 'schedule']);
 
             if($request->manualyCustomer == true || $request->manualyCustomer == "true"){
                 $customer =  $addCustomer->addCustomer($request);
-                $data['customer_id'] = $customer->customer_id;
+                $customerId = $customer->customer_id;
             }elseif($request->customer_id){
-                $data['customer_id'] = $request->customer_id;
+                $customerId = $request->customer_id;
             }
 
-            $times = explode('-', $request->schedule);
 
+            // $times = explode('-', $request->schedule);
             // $data['start_time'] = trim($times[0]);
             // $data['end_time'] = trim($times[1]);
+            // $data['created_by'] = auth()->user()->name;
+
 
             $data['start_time'] = $request->schedule;
             $data['end_time'] = '18:50';
-
-            // $data['created_by'] = auth()->user()->name;
-
             $data['created_by'] = "Admin";
+
+
+            $data['customer_id'] = $customerId;
+
             $taks = Task::create($data);
 
             if ($request->hasFile('file_upload')) {
