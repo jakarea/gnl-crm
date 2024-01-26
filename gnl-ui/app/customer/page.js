@@ -13,6 +13,7 @@ import AddNewCustomer from "./components/add-customer";
 import { Toaster } from 'react-hot-toast';
 import { Customers } from "@/app/lib/customers";
 import CustomerItem from "./components/customerist-item";
+import Pagination from "../components/pagination/pagination";
 
 export const metadata = {
 	title: 'Customer List',
@@ -20,8 +21,17 @@ export const metadata = {
 }
 
 async function Customer() {
-	const { data: { totalCustomer } } = await Customers();
+	const { data } = await Customers();
 
+
+	const {
+		totalCustomer = 0,
+		newCustomer = 0,
+		repeatedCustomer = 0,
+		totalCustomerInc = 0,
+		newCustomerInc = 0,
+		repeatCustomerInc = 0
+	} = data;
 
 	return (
 		<section className="main-page-wrapper customer-page-wrapper">
@@ -55,7 +65,7 @@ async function Customer() {
 						</h5>
 						<h3>{ totalCustomer }</h3>
 						<div className="d-flex">
-							<span>+4.3%</span>
+							<span>+{totalCustomerInc}%</span>
 							<p>Higher than last month</p>
 						</div>
 					</div>
@@ -70,9 +80,9 @@ async function Customer() {
 							/>
 							New Customer
 						</h5>
-						<h3>4,136</h3>
+						<h3>{newCustomer}</h3>
 						<div className="d-flex">
-							<span>+4.3%</span>
+							<span>+{newCustomerInc}%</span>
 							<p>Higher than last month</p>
 						</div>
 					</div>
@@ -87,9 +97,9 @@ async function Customer() {
 							/>
 							Repeat Customer
 						</h5>
-						<h3>3646</h3>
+						<h3> {repeatedCustomer} </h3>
 						<div className="d-flex">
-							<span>+4.3%</span>
+						<span>+{repeatCustomerInc}%</span>
 							<p>Higher than last month</p>
 						</div>
 					</div>
@@ -217,51 +227,6 @@ async function Customer() {
 
 				<CustomerItem/>
 	
-
-				<div className="pagination-section">
-					<nav className="mt-4" aria-label="...">
-						<ul className="pagination">
-							<li className="page-item">
-								<a className="page-link page-link-left">
-									<i className="fa-solid fa-angle-left"></i>
-								</a>
-							</li>
-							<li className="page-item" aria-current="page">
-								<a className="page-link" href="#">
-									1
-								</a>
-							</li>
-							<li className="page-item">
-								<a className="page-link" href="#">
-									2
-								</a>
-							</li>
-							<li className="page-item">
-								<a className="page-link" href="#">
-									3
-								</a>
-							</li>
-							<li className="page-item">
-								<a className="page-link" href="#">
-									...
-								</a>
-							</li>
-							<li className="page-item">
-								<a className="page-link" href="#">
-									10
-								</a>
-							</li>
-							<li className="page-item">
-								<a className="page-link page-link-right" href="#">
-									<i className="fa-solid fa-angle-right"></i>
-								</a>
-							</li>
-						</ul>
-					</nav>
-					<div className="pagination-text">
-						<p>Showing 1 to 8 of 80 entries</p>
-					</div>
-				</div>
 			</div>
 
 

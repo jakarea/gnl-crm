@@ -14,14 +14,25 @@ import CustomerDetails from './customer-details-modal';
 import { Customers } from "@/app/lib/customers";
 import EditCustomer from "@/app/components/customers/edit-customer";
 import DeleteConfirmPopUp from "@/app/components/delete";
+import Pagination from "@/app/components/pagination/pagination";
+import { useRouter, useSearchParams } from "next/navigation";
 
 function CustomerItem() {
 
-    const [customer, setCustomer] = useState(null);
-    const [openDeletePopup, setDeletePopUp] = useState(false);
-    const [editCustomer, setEditCustomer] = useState(null);
-    const [deleteCustomer, setDeleteCustomer] = useState(null);
+
     const [customers, setCustomers] = useState([]);
+    const [customer, setCustomer] = useState(null);
+    const [editCustomer, setEditCustomer] = useState(null);
+    const [openDeletePopup, setDeletePopUp] = useState(false);
+    const [deleteCustomer, setDeleteCustomer] = useState(null);
+
+    const [showEditModal, setShowEditModal] = useState(false);
+
+    // State for Pagination 
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalEntries, setTotalEntries] = useState(0);
+    const [entriesPerPage, setEntriesPerPage] = useState(0);
+
 
     const handleCustomer = (customer) => {
         setCustomer(customer);
@@ -34,17 +45,14 @@ function CustomerItem() {
     const handleEditCustomer = (e, customer) => {
         e.preventDefault();
         setEditCustomer(customer);
-        console.log(customer)
+        setShowEditModal(true)
     };
-
 
     const handleDeleteConfirmation = (e, customer) => {
         e.preventDefault();
         setDeletePopUp(true);
         setDeleteCustomer(customer);
     }
-    
-
 
     const handleDeleteCustomer = async (customer) => {
         const formData = new FormData();
@@ -53,53 +61,51 @@ function CustomerItem() {
 
         await toast.promise(
             axios.post(`api/customer/${customer.customer_id}/delete`, formData), {
-                loading: 'Saving...',
-                success: () => {
-                    setDeletePopUp(false);
-                    reloadForDeleteCustomer();
-                    return 'Customer deleted successfully!';
-                },
-                error: (error) => {
-                    if (error.response && error.response.data.errors) {
-                        setCustomer({
-                            ...customerInput,
-                            error_list: error.response.data.errors,
-                        });
-                    }
+            loading: 'Saving...',
+            success: () => {
+                setDeletePopUp(false);
+                reloadForDeleteCustomer();
+                return 'Customer deleted successfully!';
+            },
+            error: (error) => {
 
-                    return 'Failed to delete customer. Please try again.';
-                },
+                return 'Failed to delete customer. Please try again.';
+            },
 
-            }
+        }
         );
     };
 
+    const fetchData = async (page = 1) => {
 
-
-    const fetchData = async () => {
-        const { data: { customers } } = await Customers();
-        setCustomers(customers);
+        const { data: data } = await Customers(page);
+       
+        setCustomers(data.customers.data);
+        setTotalEntries(data.customers.total);
+        setEntriesPerPage(data.customers.per_page);
     };
 
-
     const customerListReload = async () => {
-        await fetchData();
+        await fetchData(currentPage);
     };
 
 
     const reloadForDeleteCustomer = async () => {
-        await fetchData();
+        await fetchData(currentPage);
     };
 
-
-
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
+    };
 
     useEffect(() => {
-        fetchData();
-    }, []);
+        fetchData(currentPage);
+    }, [currentPage]);
+
 
 
     return (
+        <>
             <div className="row">
                 {customers.map((customer, index) => (
                     <div key={index} className="col-12 col-sm-6 col-lg-4 col-xl-3 mt-15">
@@ -181,18 +187,31 @@ function CustomerItem() {
                                 <div className="modal-body">
                                     <p>Are you sure you want to delete?</p>
                                 </div>
-                                <div class="modal-footer">
-                                    <button onClick={() => closeModal()} data-bs-dismiss="modal" type="button" class="btn btn-secondary" id="close-modal">No</button>
-                                    <button onClick={() => handleDeleteCustomer(deleteCustomer)} type="button" class="btn btn-danger">Yes</button>
+                                <div className="modal-footer">
+                                    <button onClick={() => closeModal()} data-bs-dismiss="modal" type="button" className="btn btn-secondary" id="close-modal">No</button>
+                                    <button onClick={() => handleDeleteCustomer(deleteCustomer)} type="button" className="btn btn-danger">Yes</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <CustomerDetails detailsCustomer={customer} />
-                <EditCustomer customer={editCustomer} customerListReload={customerListReload} />
+
+                <CustomerDetails detailsCustomer={customer} customerListReload={customerListReload}/>
+                <EditCustomer customer={editCustomer} />
             </div>
+
+            {customers.length > 0 && (
+                <Pagination
+                    totalEntries={totalEntries}
+                    entriesPerPage={entriesPerPage}
+                    currentPage={currentPage}
+                    onPageChange={handlePageChange}
+                />
+            )}
+
+        </>
+
     )
 }
 

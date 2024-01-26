@@ -14,7 +14,7 @@ import "@/public/assets/css/responsive.css";
 
 import avatar from "@/public/uploads/users/avatar-10.png";
 import userAdd2 from "@/public/assets/images/icons/user-add-two.svg";
-import close from "@/public/assets/images/icons/close-3.svg";
+import close from "@/public/assets/images/icons/close-2.svg";
 import camera from "@/public/assets/images/icons/camera.svg";
 import anchor from "@/public/assets/images/icons/anchor.svg";
 import search from "@/public/assets/images/icons/search-ic.svg";
@@ -176,8 +176,8 @@ function AddClient() {
             loading: 'Saving...',
             success: (response) => {
                 setPayment(initialPaymentState);
+                setSelectedCustomer(null);
                 return 'Payment create successfully!';
-
             },
 
             error: (error) => {
@@ -215,11 +215,11 @@ function AddClient() {
                                 <div className="add-customer-form add-customer-form-hosting">
                                     <div className="row">
                                         <div className="col-xl-12 mt-4">
-                                            <label htmlFor="name" className="select-client-hosting">Select Client</label>
+                                            <label htmlFor="name" className="select-client-hosting">Select Customer</label>
                                             <div className="form-group form-group-two form-group-three form-error">
                                                 <div className="search-client">
                                                     <Image src={search} alt='' />
-                                                    <input type="text" placeholder="Search Client" id="name" name="search" className="form-control" value={searchQuery}
+                                                    <input type="text" placeholder="Search Customer" id="name" name="search" className="form-control" value={searchQuery}
                                                         onChange={handleChange} />
                                                     {/* {taskInput.error_list.search && (
                                                         <div className="invalid-feedback d-block">{taskInput.error_list.search}</div>
@@ -235,20 +235,46 @@ function AddClient() {
 
                                             <div className="row">
 
-                                                <div className="col-lg-6">
-                                                    <div className="selected-profile-box">
-                                                        <div className="media">
-                                                            <Image src={avatar} className="img-fluid avatar" alt="avatar" />
-                                                            <div className="media-body">
-                                                                <h3>Glenda Miller</h3>
-                                                                <p>Manager</p>
+                                                {isLoading && <p>Loading...</p>}
+                                                {!isLoading && showNoResultsMessage && (
+                                                    <p className="text-danger mt-3">No customers found</p>
+                                                )}
+                                                {!isLoading && searchCustomerResults.length > 0 && (
+                                                    <>
+                                                        {searchCustomerResults.map((customer, index) => (
+                                                            <div className="col-lg-12" key={index}>
+                                                                <div className="selected-profile-box bg-transporant" onClick={() => handleSelectedCustomer(customer.customer_id)}>
+                                                                    <div className="media">
+                                                                        <Image src={customer.avatar ? process.env.NEXT_BACKEND_URL + "/" + customer.avatar : avatar} alt={customer.name} className="img-fluid avatar" />
+                                                                        <div className="media-body">
+                                                                            <h3>{customer.name}</h3>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
                                                             </div>
-                                                            <Link href="#">
-                                                                <Image src={close} className="img-fluid" alt="a" />
-                                                            </Link>
+
+                                                        ))}
+                                                    </>
+                                                )}
+
+                                                {selectedCustomer && (
+                                                    <div className="row">
+                                                        <div className="col-lg-6">
+                                                            <div className="selected-profile-box">
+                                                                <div className="media">
+                                                                    <Image src={selectedCustomer.avatar ? process.env.NEXT_BACKEND_URL + "/" + selectedCustomer.avatar : avatar} alt={selectedCustomer.name} className="img-fluid avatar" />
+                                                                    <div className="media-body">
+                                                                        <h3>{selectedCustomer.name}</h3>
+                                                                        <p>{selectedCustomer.designation}</p>
+                                                                    </div>
+                                                                    <Link href="#" onClick={() => handleHideCustomer(selectedCustomer.customer_id)}>
+                                                                        <Image src={close} alt="Close" className="img-fluid" />
+                                                                    </Link>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                )}
 
                                             </div>
 

@@ -219,9 +219,10 @@ function AddTask() {
             axios.post(`/api/task/store`, formData), {
             loading: 'Saving...',
             success: (response) => {
-                setTask(initialProjectState);
+                setTask(initialTaskState);
+                setSelectedProject(null)
+                setSelectedCustomer(null)
                 return 'Task create successfully!';
-
             },
 
             error: (error) => {

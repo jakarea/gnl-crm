@@ -14,6 +14,7 @@ import Link from 'next/link';
 
 function EditCustomer({ customer, customerListReload }) {
 
+
     const initialCustomerState = {
         name: '',
         avatar: null,
@@ -30,9 +31,8 @@ function EditCustomer({ customer, customerListReload }) {
         details: '',
         error_list: [],
     }
+
     const [customerInput, setCustomer] = useState(initialCustomerState);
-
-
 
     const handleInput = (e) => {
         setCustomer((prevCustomerInput) => ({
@@ -76,7 +76,7 @@ function EditCustomer({ customer, customerListReload }) {
 
         const formData = new FormData();
 
-        formData.append('_method','put');
+        formData.append('_method', 'put');
         formData.append('name', customerInput.name);
         formData.append('designation', customerInput.designation || '');
         formData.append('email', customerInput.email || '');
@@ -89,7 +89,6 @@ function EditCustomer({ customer, customerListReload }) {
         formData.append('website', customerInput.website || '');
         formData.append('details', customerInput.details || '');
 
-
         if (customerInput.avatar) {
             formData.append('avatar', customerInput.avatar);
         }
@@ -98,33 +97,42 @@ function EditCustomer({ customer, customerListReload }) {
 
         await toast.promise(
             axios.post(`api/customer/${customer.customer_id}/update`, formData), {
-                loading: 'Saving...',
-                success: () => {
-                    customerListReload();
-                    setCustomer(initialCustomerState);
-                    return 'Customer updated successfully!';
-                },
-                error: (error) => {
-                    if (error.response && error.response.data.errors) {
-                        setCustomer({
-                            ...customerInput,
-                            error_list: error.response.data.errors,
-                        });
-                    }
+            loading: 'Saving...',
+            success: () => {
+                setCustomer(initialCustomerState);
+                customerListReload();
 
-                    return 'Failed to add customer. Please try again.';
-                },
+                return 'Customer updated successfully!';
+            },
+            error: (error) => {
+                if (error.response && error.response.data.errors) {
+                    setCustomer({
+                        ...customerInput,
+                        error_list: error.response.data.errors,
+                    });
+                }
 
-            }
+                return 'Failed to add customer. Please try again.';
+            },
+
+        }
         );
     };
 
 
     return (
         <div className="custom-modal">
-
+            {/* <div
+                className={`modal fade ${showEditModal ? 'show' : ''}`}
+                id="customerEdit"
+                data-bs-backdrop="static"
+                data-bs-keyboard="false"
+                tabIndex="-1"
+                aria-labelledby="staticBackdropLabel"
+                aria-hidden={!showEditModal}
+            ></div> */}
             <div
-                className={`modal fade`}
+                className="modal fade"
                 id="customerEdit"
                 data-bs-backdrop="static"
                 data-bs-keyboard="false"
