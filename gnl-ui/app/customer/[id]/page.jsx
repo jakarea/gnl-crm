@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import React from 'react'
 
 import "@/public/assets/css/style.css";
 import "@/public/assets/css/customer.css";
@@ -7,23 +6,26 @@ import "@/public/assets/css/customer.css";
 
 import avatar from "@/public/uploads/users/avatar-2.png";
 
-import editIcon from "@/public/assets/images/icons/edit-2.svg";
 import callIcon from "@/public/assets/images/icons/call.svg";
 import emailIcon from "@/public/assets/images/icons/envelope.svg";
-import trashIcon from "@/public/assets/images/icons/trash.svg";
 
 import location from "@/public/assets/images/icons/location.svg";
 import Image from 'next/image';
 import { getCustomer } from '@/app/lib/customers';
+import CustomerEditDeleteButton from '@/app/components/customers/editDeleteButton';
+import EditCustomer from '@/app/components/customers/edit-customer';
 
 
 async function CustomerDetails({ params }) {
 
     const { id: customerId } = params;
 
+    // const [openDeletePopup, setDeletePopUp] = useState(false);
+
     const { data: customer } = await getCustomer(customerId);
 
     return (
+
         <section className="main-page-wrapper">
             <h2>Customer Detail</h2>
 
@@ -39,12 +41,7 @@ async function CustomerDetails({ params }) {
                         <Link href="#" className="active">{customer.status ? 'Active' : "Deactive"}</Link>
                     </div>
                     <div className="profile-edit-box">
-                        <Link href="">
-                            <Image src={editIcon} alt="a" className="img-fluid pen-tools" />
-                        </Link>
-                        <Link href="">
-                            <Image src={trashIcon} alt="a" className="img-fluid trash-tools" />
-                        </Link>
+                        <CustomerEditDeleteButton customer={customer} />
                     </div>
                 </div>
 
@@ -92,7 +89,7 @@ async function CustomerDetails({ params }) {
                         {customer.service && (
                             <Link href="#"> {customer.service}</Link>
                         )}
-                        
+
                     </div>
                     {customer.company && (
                         <div className="service-text border-line">
@@ -176,8 +173,9 @@ async function CustomerDetails({ params }) {
                 </div>
             </div>
 
-
+            <EditCustomer customer={customer} />
         </section>
+
     )
 }
 

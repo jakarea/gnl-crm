@@ -14,7 +14,6 @@ import Link from 'next/link';
 
 function EditCustomer({ customer, customerListReload }) {
 
-
     const initialCustomerState = {
         name: '',
         avatar: null,
@@ -100,7 +99,7 @@ function EditCustomer({ customer, customerListReload }) {
             loading: 'Saving...',
             success: () => {
                 setCustomer(initialCustomerState);
-                customerListReload();
+                // customerListReload();
 
                 return 'Customer updated successfully!';
             },

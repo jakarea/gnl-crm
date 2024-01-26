@@ -197,8 +197,8 @@ function CustomerItem() {
                 </div>
 
 
-                <CustomerDetails detailsCustomer={customer} customerListReload={customerListReload}/>
-                <EditCustomer customer={editCustomer} />
+                <CustomerDetails detailsCustomer={customer}/>
+                <EditCustomer customer={editCustomer} ustomerListReload={customerListReload}/>
             </div>
 
             {customers.length > 0 && (
