@@ -21,7 +21,7 @@ class ApiCustomerControlller extends ApiController
     public function index():JsonResponse
     {
         // Get count current month
-        $data['customers'] = Customer::orderByDesc('customer_id')->paginate(20);
+        $data['customers'] = Customer::orderByDesc('customer_id')->paginate(1);
 
         $data['totalCustomer'] = Customer::count();
         $data['newCustomer'] = Customer::where('created_at', '>=', now()->subDays(7))->count();
@@ -125,5 +125,19 @@ class ApiCustomerControlller extends ApiController
 
     function calculatePercentageIncrease($currentCount, $previousCount): float {
         return $previousCount !== 0 ? (($currentCount - $previousCount) / $previousCount) * 100 : 0;
+    }
+
+    function searchCustomerQuery( Request $request) {
+
+        $status = $request->input('status', 'all');
+        $query = Customer::query();
+
+        if ($status !== 'all') {
+            $query->where('status', $status);
+        }
+
+        $customers = $query->get();
+
+        return $this->jsonResponse(false, $this->success, $customers, $this->emptyArray, JsonResponse::HTTP_OK);
     }
 }

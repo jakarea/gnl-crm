@@ -1,4 +1,4 @@
-"use client";
+
 import React, { useEffect, useState } from 'react'
 import Image from "next/image";
 
@@ -6,67 +6,17 @@ import "@/public/assets/css/customer.css";
 
 
 import callIcon from "@/public/assets/images/icons/call.svg";
-import editOneIcon from "@/public/assets/images/icons/edit-1.svg";
 import envelopeIcon from "@/public/assets/images/icons/envelope.svg";
 import locationIcon from "@/public/assets/images/icons/location.svg";
-
-import trashOneIcon from "@/public/assets/images/icons/trash-1.svg";
 
 import UserAvatar from "@/public/uploads/users/avatar-1.png";
 import Link from 'next/link';
 import EditCustomer from '@/app/components/customers/edit-customer';
-import toast from 'react-hot-toast';
-import axios from '@/app/lib/axios';
+
+import CustomerEditDeleteButton from '@/app/components/customers/editDeleteButton';
 
 function CustomerDetails({ detailsCustomer }) {
 
-    const [openDeletePopup, setDeletePopUp] = useState(false);
-	const [deleteCustomer, setDeleteCustomer] = useState(null);
-	const [showEditModal, setShowEditModal] = useState(false);
-
-
-	const closeModal = () => {
-        setDeletePopUp(false)
-    }
-
-	const handleDeleteConfirmation = (e, customer) => {
-        e.preventDefault();
-        setDeletePopUp(true);
-        setDeleteCustomer(customer);
-    }
-
-	const handleEditCustomer = (e, customer) => {
-        e.preventDefault();
-        setShowEditModal(true)
-    };
-
-    const handleDeleteCustomer = async (customer) => {
-        const formData = new FormData();
-
-        formData.append('_method', 'delete');
-
-        await toast.promise(
-            axios.post(`api/customer/${customer.customer_id}/delete`, formData), {
-            loading: 'Saving...',
-            success: () => {
-                setDeletePopUp(false);
-                // reloadForDeleteCustomer();
-                return 'Customer deleted successfully!';
-            },
-            error: (error) => {
-
-                return 'Failed to delete customer. Please try again.';
-            },
-
-        }
-        );
-    };
-
-	useEffect(() => {
-		return () => {
-			console.log('CustomerDetails unmounted');
-		};
-	}, [detailsCustomer]);
 	return (
 		<>
 			<div className="add-company-modal-from">
@@ -103,21 +53,7 @@ function CustomerDetails({ detailsCustomer }) {
 									</div>
 									<div className="profile-edit-box profile-edit-details-box">
 
-										<Link data-bs-toggle="modal"
-											data-bs-target="#customerEdit" className="dropdown-item" href="#">
-											<Image
-												className="img-fluid pen-tools"
-												src={editOneIcon}
-												alt="pen-images"
-											/>
-										</Link>
-
-
-										<Image onClick={(e) => handleDeleteConfirmation(e, detailsCustomer)}
-											className="img-fluid trash-tools"
-											src={trashOneIcon}
-											alt="trash-images"
-										/>
+										<CustomerEditDeleteButton customer={detailsCustomer} />
 									</div>
 								</div>
 							</div>
@@ -199,30 +135,6 @@ function CustomerDetails({ detailsCustomer }) {
 				</div>
 
 			</div>
-
-
-			{/* Bootstrap delte confirmation */}
-			<div className="custom-modal">
-                    <div className={`modal fade ${openDeletePopup ? 'show d-block' : ''}`} id="delteConfirm" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="staticBackdropFourLabel" aria-hidden={!openDeletePopup}>
-                        <div className="modal-dialog modal-dialog-centered">
-                            <div className="modal-content modal-content-leads">
-                                <div className="modal-header modal-header-leads">
-                                    <h5 className="modal-title fs-5" id="staticBackdropFourLabel">Delete Customer</h5>
-                                    <button type="button" className="btn" data-bs-dismiss="modal">
-                                        <i className="fas fa-close"></i>
-                                    </button>
-                                </div>
-                                <div className="modal-body">
-                                    <p>Are you sure you want to delete?</p>
-                                </div>
-                                <div className="modal-footer">
-                                    <button onClick={() => closeModal()} data-bs-dismiss="modal" type="button" className="btn btn-secondary" id="close-modal">No</button>
-                                    <button onClick={() => handleDeleteCustomer(deleteCustomer)} type="button" className="btn btn-danger">Yes</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
 			<EditCustomer customer={detailsCustomer} />
 		</>

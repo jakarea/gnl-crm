@@ -3,7 +3,6 @@ import React from 'react'
 import Image from 'next/image';
 
 import search from "@/public/assets/images/icons/search-ic.svg";
-import search from "@/public/assets/images/icons/";
 
 
 function SearchProject() {

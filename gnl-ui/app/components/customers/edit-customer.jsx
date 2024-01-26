@@ -158,6 +158,7 @@ function EditCustomer({ customer, customerListReload }) {
                                             <div className="form-group">
                                                 <label htmlFor="">Profile Image</label>
                                                 <input
+                                                    value={''}
                                                     type="file"
                                                     name="avatar"
                                                     id="avatar"

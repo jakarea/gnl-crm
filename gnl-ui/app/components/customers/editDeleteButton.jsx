@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import axios from '@/app/lib/axios';
 import Link from 'next/link';
@@ -10,9 +10,13 @@ import trashIcon from "@/public/assets/images/icons/trash.svg";
 import Image from 'next/image';
 import EditCustomer from './edit-customer';
 import "@/public/assets/css/customer.css";
+import { useRouter } from "next/navigation";
 
 
 function CustomerEditDeleteButton({ customer }) {
+
+
+    const router = useRouter();
     const [openDeletePopup, setDeletePopUp] = useState(false);
 
     const closeModal = () => {
@@ -30,20 +34,22 @@ function CustomerEditDeleteButton({ customer }) {
         formData.append('_method', 'delete');
 
         await toast.promise(
-            axios.post(`api/customer/${customer.customer_id}/delete`, formData), {
-                loading: 'Saving...',
-                success: () => {
-                    setDeletePopUp(false);
-                    // reloadForDeleteCustomer();
-                    return 'Customer deleted successfully!';
-                },
-                error: (error) => {
+            axios.delete(`api/customer/${customer.customer_id}/delete`, formData), {
+            loading: 'Saving...',
+            success: () => {
+                setDeletePopUp(false);
+                // reloadForDeleteCustomer();
+                router.push("/customer")
+                return 'Customer deleted successfully!';
+            },
+            error: (error) => {
 
-                    return 'Failed to delete customer. Please try again.';
-                },
-            }
+                return 'Failed to delete customer. Please try again.';
+            },
+        }
         );
     };
+
 
     return (
         <>
@@ -58,7 +64,7 @@ function CustomerEditDeleteButton({ customer }) {
             </Link>
 
             <div className="custom-modal">
-                <div className={`modal fade ${openDeletePopup ? 'show d-block' : ''}`} id="delteConfirm" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="staticBackdropFourLabel" aria-hidden={!openDeletePopup}>
+                <div className={`modal fade ${openDeletePopup ? 'show d-block' : 'd-none'}`} id="delteConfirm" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="staticBackdropFourLabel" aria-hidden={!openDeletePopup}>
                     <div className="modal-dialog modal-dialog-centered">
                         <div className="modal-content modal-content-leads">
                             <div className="modal-header modal-header-leads">
@@ -78,6 +84,7 @@ function CustomerEditDeleteButton({ customer }) {
                     </div>
                 </div>
             </div>
+
         </>
 
 
