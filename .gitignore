@@ -1,0 +1,88 @@
+/api/node_modules
+/api/public/hot
+/api/public/storage
+/api/storage/*.key
+/api/vendor
+/api/vendor/
+/api/vendor/*
+/api/.env
+/api/.env.backup
+/api/.phpunit.result.cache
+/api/Homestead.json
+/api/Homestead.yaml
+/api/npm-debug.log
+/api/yarn-error.log
+/api/.idea
+/api/.vscode
+/api/database.sqlite
+/api/.DS_Store
+/api/composer.lock
+.DS_Store
+/uploads
+
+/gnl-ui/node_modules
+/gnl-ui/.pnp
+/gnl-ui/.pnp.js
+/gnl-ui/.yarn/install-state.gz
+
+# testing
+/gnl-ui/coverage
+
+# next.js
+/gnl-ui/.next/
+/gnl-ui/out/
+
+# production
+/gnl-ui/build
+
+# misc
+/gnl-ui/.DS_Store
+/gnl-ui/*.pem
+
+# debug
+/gnl-ui/npm-debug.log*
+/gnl-ui/yarn-debug.log*
+/gnl-ui/yarn-error.log*
+
+# local env files
+/gnl-ui/.env*.local
+
+# vercel
+/gnl-ui/.vercel
+
+
+
+/demo-rtk-app/node_modules
+/demo-rtk-app/.pnp
+/demo-rtk-app/.pnp.js
+/demo-rtk-app/.yarn/install-state.gz
+
+# testing
+/demo-rtk-app/coverage
+
+# next.js
+/demo-rtk-app/.next/
+/demo-rtk-app/out/
+
+# production
+/demo-rtk-app/build
+
+# misc
+/demo-rtk-app/.DS_Store
+/demo-rtk-app/*.pem
+
+# debug
+/demo-rtk-app/npm-debug.log*
+/demo-rtk-app/yarn-debug.log*
+/demo-rtk-app/yarn-error.log*
+
+# local env files
+/demo-rtk-app/.env*.local
+
+# vercel
+/demo-rtk-app/.vercel
+
+# typescript
+/demo-rtk-app/*.tsbuildinfo
+/demo-rtk-app/next-env.d.ts
+
