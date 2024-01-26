@@ -1,31 +1,22 @@
-"use client";
-import React, { useEffect } from 'react'
+
+import React, { useEffect, useState } from 'react'
 import Image from "next/image";
 
 import "@/public/assets/css/customer.css";
 
 
 import callIcon from "@/public/assets/images/icons/call.svg";
-import editOneIcon from "@/public/assets/images/icons/edit-1.svg";
 import envelopeIcon from "@/public/assets/images/icons/envelope.svg";
 import locationIcon from "@/public/assets/images/icons/location.svg";
-
-import trashOneIcon from "@/public/assets/images/icons/trash-1.svg";
 
 import UserAvatar from "@/public/uploads/users/avatar-1.png";
 import Link from 'next/link';
 import EditCustomer from '@/app/components/customers/edit-customer';
 
-
+import CustomerEditDeleteButton from '@/app/components/customers/editDeleteButton';
 
 function CustomerDetails({ detailsCustomer }) {
 
-	console.log(detailsCustomer)
-	useEffect(() => {
-		return () => {
-			console.log('CustomerDetails unmounted');
-		};
-	}, [detailsCustomer]);
 	return (
 		<>
 			<div className="add-company-modal-from">
@@ -61,16 +52,8 @@ function CustomerDetails({ detailsCustomer }) {
 										</span>
 									</div>
 									<div className="profile-edit-box profile-edit-details-box">
-										<Image
-											className="img-fluid pen-tools"
-											src={editOneIcon}
-											alt="pen-images"
-										/>
-										<Image
-											className="img-fluid trash-tools"
-											src={trashOneIcon}
-											alt="trash-images"
-										/>
+
+										<CustomerEditDeleteButton customer={detailsCustomer} />
 									</div>
 								</div>
 							</div>
@@ -104,14 +87,14 @@ function CustomerDetails({ detailsCustomer }) {
 							<div className="service-profile service-profile-details">
 								{detailsCustomer?.service && (
 									<div className="service-text service-text-details">
-										<p>Service:</p>
+										<p className='m-0'>Service:</p>
 										<span>{detailsCustomer.service}</span>
 									</div>
 								)}
 
 								{detailsCustomer?.company && (
 									<div className="service-text service-text-details">
-										<p>Company:</p>
+										<p className='m-0'>Company:</p>
 										<span>{detailsCustomer.company}</span>
 									</div>
 								)}
@@ -119,7 +102,7 @@ function CustomerDetails({ detailsCustomer }) {
 							<div className="service-profile service-profile-details">
 								{detailsCustomer?.website && (
 									<div className="service-text service-text-details">
-										<p>Website:</p>
+										<p className='m-0'>Website:</p>
 										<span>{detailsCustomer.website}</span>
 									</div>
 								)}
@@ -153,7 +136,7 @@ function CustomerDetails({ detailsCustomer }) {
 
 			</div>
 
-			{/* <EditCustomer customer={detailsCustomer} customerListReload={customerListReload} /> */}
+			<EditCustomer customer={detailsCustomer} />
 		</>
 	)
 }

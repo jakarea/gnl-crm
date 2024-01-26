@@ -14,7 +14,6 @@ import Link from 'next/link';
 
 function EditCustomer({ customer, customerListReload }) {
 
-
     const initialCustomerState = {
         name: '',
         avatar: null,
@@ -100,7 +99,7 @@ function EditCustomer({ customer, customerListReload }) {
             loading: 'Saving...',
             success: () => {
                 setCustomer(initialCustomerState);
-                customerListReload();
+                // customerListReload();
 
                 return 'Customer updated successfully!';
             },
@@ -159,6 +158,7 @@ function EditCustomer({ customer, customerListReload }) {
                                             <div className="form-group">
                                                 <label htmlFor="">Profile Image</label>
                                                 <input
+                                                    value={''}
                                                     type="file"
                                                     name="avatar"
                                                     id="avatar"

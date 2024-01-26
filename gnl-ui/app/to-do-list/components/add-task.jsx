@@ -212,7 +212,7 @@ function AddTask() {
         formData.append('description', taskInput.description);
 
         if (taskInput.avatar) {
-            formData.append('avatar', projectInput.avatar);
+            formData.append('avatar', taskInput.avatar);
         }
 
         await toast.promise(
@@ -436,7 +436,7 @@ function AddTask() {
                                                                 </div>
                                                                 <div className="avatar-btn">
                                                                     <Link onClick={() => addManualyCustomer()} data-bs-toggle="collapse" href="#collapseTwo"
-                                                                        role="button" aria-expanded="{projectInput.manualyCustomer ? 'true' : 'false'}"
+                                                                        role="button" aria-expanded={taskInput.manualyCustomer ? true : false}
                                                                         aria-controls="collapseTwo" type="button">
                                                                         <Image src={userAdd} alt="A" className="img-fluid" />
 

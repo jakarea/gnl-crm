@@ -370,7 +370,7 @@ function AddNewProject() {
                                                                     />
                                                                 </div>
                                                                 <div className="avatar-btn">
-                                                                    <Link onClick={() => addManualyCustomer()} data-bs-toggle="collapse" href="#collapseTwo" role="button" aria-expanded="{projectInput.manualyCustomer ? 'true' : 'false'}" aria-controls="collapseTwo" type="button">
+                                                                    <Link onClick={() => addManualyCustomer()} data-bs-toggle="collapse" href="#collapseTwo" role="button" aria-expanded={projectInput.manualyCustomer ? true : false} aria-controls="collapseTwo" type="button">
                                                                         <Image src={userAdd2} alt="a" className="img-fluid" />Add Manually</Link>
                                                                 </div>
                                                             </div>

@@ -3,7 +3,7 @@ function DeleteConfirmPopUp() {
         <div className="custom-modal custom-modal-leads">
             <div
                 className={`modal fade show`}
-                id="delteConfirm"
+                id="sssss"
                 data-bs-backdrop="static"
                 data-bs-keyboard="false"
                 tabIndex="-1"

@@ -105,13 +105,24 @@ Route::post('forgot-password', [ForgotPasswordController::class, 'forgotPassword
 
     // Customers Controllers
     Route::prefix('customer')->name('api.customer.')->group(function () {
+
+
         Route::get('/', [ApiCustomerControlller::class, 'index']);
+
         Route::post('/store', [ApiCustomerControlller::class, 'store']);
+
+        Route::get('/status', [ApiCustomerControlller::class, 'searchCustomerQuery']);
+
         Route::get('/{id}', [ApiCustomerControlller::class, 'show']);
 
         Route::put('/{id}/update', [ApiCustomerControlller::class, 'update']);
 
         Route::delete('/{id}/delete', [ApiCustomerControlller::class, 'destroy']);
+
+
+
+
+
     });
 
     // Projects Controllers

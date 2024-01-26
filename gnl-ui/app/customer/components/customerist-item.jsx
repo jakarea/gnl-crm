@@ -23,7 +23,7 @@ function CustomerItem() {
     const [customers, setCustomers] = useState([]);
     const [customer, setCustomer] = useState(null);
     const [editCustomer, setEditCustomer] = useState(null);
-    const [openDeletePopup, setDeletePopUp] = useState(false);
+    const [openDeletePopupModal, setDeletePopUpModal] = useState(false);
     const [deleteCustomer, setDeleteCustomer] = useState(null);
 
     const [showEditModal, setShowEditModal] = useState(false);
@@ -33,13 +33,12 @@ function CustomerItem() {
     const [totalEntries, setTotalEntries] = useState(0);
     const [entriesPerPage, setEntriesPerPage] = useState(0);
 
-
     const handleCustomer = (customer) => {
         setCustomer(customer);
     };
 
     const closeModal = () => {
-        setDeletePopUp(false)
+        setDeletePopUpModal(false)
     }
 
     const handleEditCustomer = (e, customer) => {
@@ -50,7 +49,7 @@ function CustomerItem() {
 
     const handleDeleteConfirmation = (e, customer) => {
         e.preventDefault();
-        setDeletePopUp(true);
+        setDeletePopUpModal(true);
         setDeleteCustomer(customer);
     }
 
@@ -63,7 +62,7 @@ function CustomerItem() {
             axios.post(`api/customer/${customer.customer_id}/delete`, formData), {
             loading: 'Saving...',
             success: () => {
-                setDeletePopUp(false);
+                setDeletePopUpModal(false);
                 reloadForDeleteCustomer();
                 return 'Customer deleted successfully!';
             },
@@ -79,7 +78,7 @@ function CustomerItem() {
     const fetchData = async (page = 1) => {
 
         const { data: data } = await Customers(page);
-       
+
         setCustomers(data.customers.data);
         setTotalEntries(data.customers.total);
         setEntriesPerPage(data.customers.per_page);
@@ -175,7 +174,7 @@ function CustomerItem() {
 
                 {/* Bootstrap delte confirmation */}
                 <div className="custom-modal">
-                    <div className={`modal fade ${openDeletePopup ? 'show d-block' : ''}`} id="delteConfirm" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="staticBackdropFourLabel" aria-hidden={!openDeletePopup}>
+                    <div className={`modal fade ${openDeletePopupModal ? 'show d-block' : ''}`} id="delteConfirms" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="staticBackdropFourLabel" aria-hidden={!openDeletePopupModal}>
                         <div className="modal-dialog modal-dialog-centered">
                             <div className="modal-content modal-content-leads">
                                 <div className="modal-header modal-header-leads">
@@ -197,8 +196,8 @@ function CustomerItem() {
                 </div>
 
 
-                <CustomerDetails detailsCustomer={customer} customerListReload={customerListReload}/>
-                <EditCustomer customer={editCustomer} />
+                <CustomerDetails detailsCustomer={customer}/>
+                <EditCustomer customer={editCustomer} ustomerListReload={customerListReload}/>
             </div>
 
             {customers.length > 0 && (

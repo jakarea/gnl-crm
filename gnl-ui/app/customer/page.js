@@ -14,6 +14,8 @@ import { Toaster } from 'react-hot-toast';
 import { Customers } from "@/app/lib/customers";
 import CustomerItem from "./components/customerist-item";
 import Pagination from "../components/pagination/pagination";
+import Link from "next/link";
+import CustomerFilter from "../components/customers/customer-filter";
 
 export const metadata = {
 	title: 'Customer List',
@@ -21,8 +23,8 @@ export const metadata = {
 }
 
 async function Customer() {
-	const { data } = await Customers();
 
+	const { data } = await Customers();
 
 	const {
 		totalCustomer = 0,
@@ -33,6 +35,7 @@ async function Customer() {
 		repeatCustomerInc = 0
 	} = data;
 
+	
 	return (
 		<section className="main-page-wrapper customer-page-wrapper">
 			<Toaster  position="top-right"/>
@@ -107,122 +110,7 @@ async function Customer() {
 			</div>
 
 			<div className="all-customer-box mt-15">
-				<div className="row">
-					<div className="col-lg-5">
-						<div className="customer-filter-title">
-							<h2 className="common-title pb-0">All Customer</h2>
-						</div>
-					</div>
-					<div className="col-lg-7">
-						<form action="">
-							<div className="filters-area">
-								<div className="dropdown">
-									<button
-										className="btn"
-										type="button"
-										data-bs-toggle="dropdown"
-										aria-expanded="false"
-									>
-										All Leads <Image src={downAngleIcon} alt="a" />
-									</button>
-									<ul className="dropdown-menu">
-										<li>
-											<a className="dropdown-item active" href="#">
-												All Leads <i className="fas fa-check"></i>
-											</a>
-										</li>
-										<li>
-											<a className="dropdown-item" href="#">
-												Hosting Leads
-											</a>
-										</li>
-										<li>
-											<a className="dropdown-item" href="#">
-												Marketing Leads
-											</a>
-										</li>
-										<li>
-											<a className="dropdown-item" href="#">
-												Project Leads
-											</a>
-										</li>
-										<li>
-											<a className="dropdown-item" href="#">
-												Website Leads
-											</a>
-										</li>
-										<li>
-											<a className="dropdown-item" href="#">
-												Lost Leads
-											</a>
-										</li>
-									</ul>
-								</div>
-
-								<div className="dropdown">
-									<button
-										className="btn"
-										type="button"
-										data-bs-toggle="dropdown"
-										aria-expanded="false"
-									>
-										All Service <Image src={downAngleIcon} alt="a" />
-									</button>
-									<ul className="dropdown-menu">
-										<li>
-											<a className="dropdown-item active" href="#">
-												All Service <i className="fas fa-check"></i>
-											</a>
-										</li>
-										<li>
-											<a className="dropdown-item" href="#">
-												App Design
-											</a>
-										</li>
-										<li>
-											<a className="dropdown-item" href="#">
-												Dashboard Design
-											</a>
-										</li>
-										<li>
-											<a className="dropdown-item" href="#">
-												Landing Page Design
-											</a>
-										</li>
-									</ul>
-								</div>
-
-								<div className="dropdown">
-									<button
-										className="btn"
-										type="button"
-										data-bs-toggle="dropdown"
-										aria-expanded="false"
-									>
-										All Customer <Image src={downAngleIcon} alt="a" />
-									</button>
-									<ul className="dropdown-menu">
-										<li>
-											<a className="dropdown-item active" href="#">
-												All Customer <i className="fas fa-check"></i>
-											</a>
-										</li>
-										<li>
-											<a className="dropdown-item" href="#">
-												Active Customer
-											</a>
-										</li>
-										<li>
-											<a className="dropdown-item" href="#">
-												Inactive Customer
-											</a>
-										</li>
-									</ul>
-								</div>
-							</div>
-						</form>
-					</div>
-				</div>
+				<CustomerFilter/>
 
 
 				<CustomerItem/>
