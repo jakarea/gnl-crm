@@ -20,21 +20,31 @@ class ApiCustomerControlller extends ApiController
      */
     public function index():JsonResponse
     {
-        // Get count current month
-        $data['customers'] = Customer::orderByDesc('customer_id')->paginate(1);
+        $request = request();
 
-        $data['totalCustomer'] = Customer::count();
-        $data['newCustomer'] = Customer::where('created_at', '>=', now()->subDays(7))->count();
-        $data['repeatedCustomer'] = Customer::whereColumn('updated_at', '>', 'created_at')->count();
+        $status = $request->input('status', 'all');
+        $query = Customer::query();
+
+        if ($status !== 'all') {
+            $query->where('status', $status);
+        }
+
+        $data['customers'] = $query->orderByDesc('customer_id')->paginate(20);
+
+        // Get count current month
+        $data['totalCustomer'] = $query->count();
+        $data['newCustomer'] = $query->where('created_at', '>=', now()->subDays(7))->count();
+        $data['repeatedCustomer'] = $query->whereColumn('updated_at', '>', 'created_at')->count();
 
         // Get counts for the previous month
-        $previousMonthTotalCustomers = Customer::whereBetween('created_at', [now()->subMonths(2)->startOfMonth(), now()->subMonth()->endOfMonth()])->count();
-        $previousMonthNewCustomers = Customer::whereBetween('created_at', [now()->subMonths(2)->startOfMonth(), now()->subMonth()->endOfMonth()])->count();
-        $previousMonthRepeatedCustomers = Customer::whereBetween('updated_at', [now()->subMonths(2)->startOfMonth(), now()->subMonth()->endOfMonth()])->count();
+        $previousMonthTotalCustomers = $query->whereBetween('created_at', [now()->subMonths(2)->startOfMonth(), now()->subMonth()->endOfMonth()])->count();
+        $previousMonthNewCustomers = $query->whereBetween('created_at', [now()->subMonths(2)->startOfMonth(), now()->subMonth()->endOfMonth()])->count();
+        $previousMonthRepeatedCustomers = $query->whereBetween('updated_at', [now()->subMonths(2)->startOfMonth(), now()->subMonth()->endOfMonth()])->count();
 
         $data['totalCustomerInc'] = round($this->calculatePercentageIncrease($data['totalCustomer'], $previousMonthTotalCustomers), 2);
         $data['newCustomerInc'] = round($this->calculatePercentageIncrease($data['newCustomer'], $previousMonthNewCustomers), 2);
-        $data['repeatCustomerInc'] =round($this->calculatePercentageIncrease($data['repeatedCustomer'], $previousMonthRepeatedCustomers), 2);
+        $data['repeatCustomerInc'] = round($this->calculatePercentageIncrease($data['repeatedCustomer'], $previousMonthRepeatedCustomers), 2);
+
 
         return $this->jsonResponse(false, $this->success,$data,$this->emptyArray, JsonResponse::HTTP_OK);
     }
@@ -136,7 +146,7 @@ class ApiCustomerControlller extends ApiController
             $query->where('status', $status);
         }
 
-        $customers = $query->get();
+        $customers = $query->paginate(1);
 
         return $this->jsonResponse(false, $this->success, $customers, $this->emptyArray, JsonResponse::HTTP_OK);
     }

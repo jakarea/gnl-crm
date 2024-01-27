@@ -12,10 +12,11 @@ import UserAddIcon from "@/public/assets/images/icons/user-add.svg";
 import AddNewCustomer from "./components/add-customer";
 import { Toaster } from 'react-hot-toast';
 import { Customers } from "@/app/lib/customers";
-import CustomerItem from "./components/customerist-item";
+
 import Pagination from "../components/pagination/pagination";
 import Link from "next/link";
 import CustomerFilter from "../components/customers/customer-filter";
+import CustomerItems from "./components/customerist-item";
 
 export const metadata = {
 	title: 'Customer List',
@@ -34,6 +35,8 @@ async function Customer() {
 		newCustomerInc = 0,
 		repeatCustomerInc = 0
 	} = data;
+
+
 
 	
 	return (
@@ -113,7 +116,7 @@ async function Customer() {
 				<CustomerFilter/>
 
 
-				<CustomerItem/>
+				<CustomerItems/>
 	
 			</div>
 

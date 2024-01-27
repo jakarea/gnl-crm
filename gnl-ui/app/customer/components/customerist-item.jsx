@@ -17,7 +17,7 @@ import DeleteConfirmPopUp from "@/app/components/delete";
 import Pagination from "@/app/components/pagination/pagination";
 import { useRouter, useSearchParams } from "next/navigation";
 
-function CustomerItem() {
+function CustomerItems() {
 
 
     const [customers, setCustomers] = useState([]);
@@ -77,7 +77,7 @@ function CustomerItem() {
 
     const fetchData = async (page = 1) => {
 
-        const { data: data } = await Customers(page);
+        const { data: data } = await Customers({page});
 
         setCustomers(data.customers.data);
         setTotalEntries(data.customers.total);
@@ -214,4 +214,4 @@ function CustomerItem() {
     )
 }
 
-export default CustomerItem;
+export default CustomerItems;

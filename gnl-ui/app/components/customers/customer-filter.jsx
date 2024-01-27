@@ -5,18 +5,22 @@ import Image from "next/image";
 
 
 import downAngleIcon from "@/public/assets/images/icons/angle-down.svg";
-import { CustomersByQuery } from '@/app/lib/customers';
-
+import { Customers } from '@/app/lib/customers';
 
 function CustomerFilter() {
 
-    const [customerData, setCustomerData] = useState({});
+    const customerStatuses = ['All', 'Active', 'Inactive'];
+
+    const [customerData, setCustomerData] = useState([]);
+    const [customerStatus, setCustomerStatus] = useState('All');
+
+
 
     const getCustomersByStatus = async (status) => {
-        const { data } = await CustomersByQuery({status});
+        const { data } = await Customers({ status });
         setCustomerData(data);
+        setCustomerStatus(status)
     };
-
 
     return (
         <div className="row">
@@ -113,22 +117,22 @@ function CustomerFilter() {
                             >
                                 All Customer <Image src={downAngleIcon} alt="a" />
                             </button>
+                            {customerStatus}
                             <ul className="dropdown-menu">
-                                <li>
-                                    <Link className="dropdown-item active" href="#" onClick={() => getCustomersByStatus('all')}>
-                                        All Customer <i className="fas fa-check"></i>
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link className="dropdown-item" href="#" onClick={() => getCustomersByStatus('Active')}>
-                                        Active Customer
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link className="dropdown-item" href="#" onClick={() => getCustomersByStatus('Inactive')}>
-                                        Inactive Customer
-                                    </Link>
-                                </li>
+                                {customerStatuses.map((status) => (
+                                    <li key={status}>
+                                        <Link
+                                            className={`dropdown-item${status === customerStatus ? ' active' : ''}`}
+                                            href="#"
+                                            onClick={() => getCustomersByStatus(status)}
+                                        >
+                                            {status === 'All'
+                                                ? 'All Customers'
+                                                : `${status} Customers`}
+                                            {status === customerStatus && <i className="fas fa-check"></i>}
+                                        </Link>
+                                    </li>
+                                ))}
                             </ul>
                         </div>
                     </div>
